@@ -1,8 +1,16 @@
 {
 	"scripts": {
 		"install": "npm install tsx discord.js telegraf openai sqlite3 dotenv concurrently",
-		"uninstall": "npm uninstall tsx discord.js telegraf openai sqlite3 dotenv concurrently",
 		"start": "npx concurrently --kill-others \"npx tsx discord.ts\" \"npx tsx telegram.ts\"",
 		"prepare": "del discord.sqlite telegram.sqlite"
+	},
+	"dependencies": {
+		"concurrently": "^8.2.2",
+		"discord.js": "^14.14.1",
+		"dotenv": "^16.4.5",
+		"openai": "^4.38.5",
+		"sqlite3": "^5.1.7",
+		"telegraf": "^4.16.3",
+		"tsx": "^4.7.3"
 	}
 }

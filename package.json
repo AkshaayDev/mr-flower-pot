@@ -1,6 +1,7 @@
 {
 	"scripts": {
-		"install": "npm i typescript discord.js telegraf openai sqlite3 dotenv concurrently",
+		"prepare": "del discord.js telegram.js",
+		"install": "npm i tsx discord.js telegraf openai sqlite3 dotenv concurrently",
 		"start": "npx concurrently --kill-others \"npx tsx discord.ts\" \"npx tsx telegram.ts\""
 	},
 	"dependencies": {
@@ -10,6 +11,6 @@
 		"openai": "^4.38.5",
 		"sqlite3": "^5.1.7",
 		"telegraf": "^4.16.3",
-		"typescript": "^5.4.5"
+		"tsx": "^4.7.3"
 	}
 }

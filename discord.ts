@@ -1,6 +1,6 @@
-const { Client, GatewayIntentBits, ActivityType, EmbedBuilder } = require("discord.js");
-const { OpenAI } = require("openai");
-const sqlite3 = require("sqlite3");
+import { Client, GatewayIntentBits, ActivityType, EmbedBuilder } from "discord.js";
+import { OpenAI } from "openai";
+import sqlite3 from "sqlite3";
 require("dotenv").config();
 
 type commandType = { description: string, formats: string[] };

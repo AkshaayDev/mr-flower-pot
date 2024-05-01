@@ -1,15 +1,18 @@
 {
 	"scripts": {
-		"install": "npm install tsx discord.js telegraf openai sqlite3 dotenv concurrently",
+		"install": "npm install tsx discord.js telegraf openai sqlite3 dotenv concurrently @types/node",
 		"start": "npx concurrently --kill-others \"npx tsx discord.ts\" \"npx tsx telegram.ts\""
 	},
 	"dependencies": {
 		"concurrently": "^8.2.2",
 		"discord.js": "^14.14.1",
 		"dotenv": "^16.4.5",
-		"openai": "^4.38.5",
+		"openai": "^4.40.0",
 		"sqlite3": "^5.1.7",
 		"telegraf": "^4.16.3",
-		"tsx": "^4.7.3"
+		"tsx": "^4.8.1"
+	},
+	"devDependencies": {
+		"@types/node": "^20.12.7"
 	}
 }

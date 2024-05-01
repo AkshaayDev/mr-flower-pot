@@ -1,6 +1,6 @@
-const { Telegraf } = require("telegraf");
-const { OpenAI } = require("openai");
-const sqlite3 = require("sqlite3");
+import { Telegraf } from "telegraf";
+import { OpenAI } from "openai";
+import sqlite3 from "sqlite3";
 require("dotenv").config();
 
 type commandType = { description: string, formats: string[] };

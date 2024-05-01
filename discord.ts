@@ -6,7 +6,7 @@ require("dotenv").config();
 type commandType = { description: string, formats: string[] };
 type messageType = { author: string, content: string, channelID: string };
 
-const db = new sqlite3.Database("./discord.sqlite");
+const db: sqlite3.Database = new sqlite3.Database("./discord.sqlite");
 db.serialize(() => { db.run(`
 
 CREATE TABLE IF NOT EXISTS messages (
@@ -54,7 +54,7 @@ const CONTEXT: string = `Your name is Mr. Flower Pot, a telegram chatbot.
 You are not actually about flowers or gardening.`;
 
 function getMessagesByChannelID(channelID: string): Promise<messageType[]> {
-	return new Promise<messageType[]>((resolve, reject) => {
+	return new Promise<messageType[]>((resolve: any, reject: any) => {
 		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error|null, rows: any[]) => {
 			if (err) { reject(err); } else { resolve(rows); }
 	  	});

@@ -1,12 +1,13 @@
 import { Telegraf } from "telegraf";
 import { OpenAI } from "openai";
-import sqlite3 from "sqlite3";
+import sqlite3, { Database } from "sqlite3";
 require("dotenv").config();
 
 type commandType = { description: string, formats: string[] };
 type messageType = { author: string, content: string, channelID: string };
+type database = sqlite3.Database;
 
-const db = new sqlite3.Database("./telegram.sqlite");
+const db: database = new sqlite3.Database("./telegram.sqlite");
 db.serialize(() => { db.run(`
 
 CREATE TABLE IF NOT EXISTS messages (
@@ -49,20 +50,20 @@ const CMDLIST: { [name: string]: commandType } = {
 const CONTEXT: string = `Your name is Mr. Flower Pot, a telegram chatbot.
 You are not actually about flowers or gardening.`;
 
-function getMessagesByChannelID(channelID: string): Promise<messageType[]> {
-	return new Promise<messageType[]>((resolve, reject) => {
+function getMessagesByChannelID(db: database, channelID: string): Promise<messageType[]> {
+	return new Promise<messageType[]>((resolve: any, reject: any) => {
 		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error|null, rows: any[]) => {
 			if (err) { reject(err); } else { resolve(rows); }
 	  	});
 	});
 }
-function insertMessage(author: string, content: string, channelID: string): void {
+function insertMessage(db: database, author: string, content: string, channelID: string): void {
 	db.serialize(() => {
 		db.run("INSERT INTO messages (Author, Content, ChannelID) VALUES (?, ?, ?)",
 		[author, content, channelID], (err: Error|null) => {if (err) { console.error(err.message); }});
 	});
 }
-function clearChat(channelID: string): void {
+function clearChat(db: database, channelID: string): void {
 	db.serialize(() => {
 		db.run("DELETE FROM messages WHERE channelID = ?", [channelID], (err: Error|null) => {
 			if (err) { console.error(err.message); }
@@ -70,7 +71,7 @@ function clearChat(channelID: string): void {
 	});
 }
 async function chatgptConversation(channelID: string): Promise<string> {
-	let messages: any = await getMessagesByChannelID(channelID);
+	let messages: any = await getMessagesByChannelID(db, channelID);
 	messages.forEach((message: messageType) => {
 		if (!["system", "assistant", "function"].includes(message.author)) {
 			message.author = "user";
@@ -118,9 +119,9 @@ bot.command(slashCommands, async (message: any) => {
 					message.reply("You did not send a message - cancelling command.");
 					return;
 				}
-				insertMessage(message.message.from.username, ARGS.join(" "), message.chat.id.toString());
+				insertMessage(db, message.message.from.username, ARGS.join(" "), message.chat.id.toString());
 				const response: string = await chatgptConversation(message.chat.id.toString());
-				insertMessage("assistant", response, message.chat.id.toString());
+				insertMessage(db, "assistant", response, message.chat.id.toString());
 				if(response === null || response === "") {
 					message.reply("⠀");
 				} else {
@@ -129,7 +130,7 @@ bot.command(slashCommands, async (message: any) => {
 				break;
 			case "chatrefresh":
 			case "chatr":
-				clearChat(message.chat.id.toString());
+				clearChat(db, message.chat.id.toString());
 				message.reply("Conversation refreshed.");
 				break;
 			case "dalle":

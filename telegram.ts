@@ -1,6 +1,6 @@
 import { Telegraf } from "telegraf";
 import { OpenAI } from "openai";
-import sqlite3, { Database } from "sqlite3";
+import sqlite3 from "sqlite3";
 require("dotenv").config();
 
 type commandType = { description: string, formats: string[] };

@@ -9,13 +9,11 @@ type database = sqlite3.Database;
 
 const db: database = new sqlite3.Database("./discord.sqlite");
 db.serialize(() => { db.run(`
-
 CREATE TABLE IF NOT EXISTS messages (
 	author TEXT,
 	content TEXT,
 	channelID TEXT
 )
-
 `); });
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;

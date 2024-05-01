@@ -9,13 +9,11 @@ type database = sqlite3.Database;
 
 const db: database = new sqlite3.Database("./telegram.sqlite");
 db.serialize(() => { db.run(`
-
 CREATE TABLE IF NOT EXISTS messages (
 	author TEXT,
 	content TEXT,
 	channelID TEXT
 )
-
 `); });
 const TELEGRAM_TOKEN: string = process.env.TELEGRAM_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;

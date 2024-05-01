@@ -10,7 +10,7 @@
 		"openai": "^4.40.0",
 		"sqlite3": "^5.1.7",
 		"telegraf": "^4.16.3",
-		"tsx": "^4.8.1"
+		"tsx": "^4.8.2"
 	},
 	"devDependencies": {
 		"@types/node": "^20.12.7"

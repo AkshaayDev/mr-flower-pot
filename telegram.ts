@@ -45,8 +45,8 @@ const CMDLIST: { [name: string]: commandType } = {
 		formats: ["dice","roll"]
 	},
 };
-const CONTEXT: string = `Your name is Mr. Flower Pot, a telegram chatbot.
-You are not actually about flowers or gardening.`;
+const CONTEXT: string = "Your name is Mr. Flower Pot, a telegram chatbot. "+
+"You are not actually about flowers or gardening.";
 
 function getMessagesByChannelID(db: database, channelID: string): Promise<messageType[]> {
 	return new Promise<messageType[]>((resolve: any, reject: any) => {
@@ -176,6 +176,10 @@ bot.command(slashCommands, async (message: any) => {
 		if (err.message.startsWith("400 Your request was rejected")){
 			message.reply("Your request was rejected as it is not allowed by our safety system.");
 			return;
+		} else if (err.message.startsWith("400 This model's maximum context length is 16385 tokens.")) {
+			message.replyWithMarkdown("Conversation character length exceeded maximum limit of 16385. "+
+				"Please refresh the conversation by typing `/chatr`."
+			);
 		}
 		console.error(`Unhandled error: ${err.message}`);
 		message.reply(`Unhandled error: ${err.message}`);

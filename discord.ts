@@ -192,8 +192,18 @@ client.on("messageCreate", async (message: any) => {
 			message.replyWithMarkdown("Conversation character length exceeded maximum limit of 16385. "+
 				"Please refresh the conversation by typing `/chatr`."
 			);
+			return;
 		} else if (err.message.startsWith("429 Rate limit reached for gpt-3.5-turbo")) {
-			message.reply("Too many requests sent - please wait for a while.");
+			const TIMEOUTID = "Please try again in ";
+			const TIMEPERIOD = (err.message.includes("RPM"))?"minute":"day";
+			let timeoutStart = err.message.indexOf(TIMEOUTID) + TIMEOUTID.length;
+			let timeoutEnd = err.message.indexOf(".", timeoutStart);
+			const TIMEOUT = err.message.slice(timeoutStart, timeoutEnd);
+			message.reply(`Requests per ${TIMEPERIOD} limit reached - please wait for ${TIMEOUT}.`);
+			return;
+		} else if (err.message === "400 Sorry! We've encountered an issue with repetitive patterns in your prompt. Please try again with a different prompt.") {
+			message.reply("There is an issue with repetitive patterns in your prompt. Please try again with a different prompt.");
+			return;
 		}
 		console.error(`Unhandled error: ${err.message}`);
 		message.reply(`Unhandled error: ${err.message}`);

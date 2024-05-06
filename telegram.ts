@@ -180,6 +180,8 @@ bot.command(slashCommands, async (message: any) => {
 			message.replyWithMarkdown("Conversation character length exceeded maximum limit of 16385. "+
 				"Please refresh the conversation by typing `/chatr`."
 			);
+		} else if (err.message.startsWith("429 Rate limit reached for gpt-3.5-turbo")) {
+			message.reply("Too many requests sent - please wait for a while.");
 		}
 		console.error(`Unhandled error: ${err.message}`);
 		message.reply(`Unhandled error: ${err.message}`);

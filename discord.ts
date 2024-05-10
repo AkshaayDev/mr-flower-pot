@@ -187,12 +187,10 @@ client.on("messageCreate", async (message: any) => {
 	} catch(err: any) {
 		if (err.message.startsWith("400 Your request was rejected")){
 			message.reply("Your request was rejected as it is not allowed by our safety system.");
-			return;
 		} else if (err.message.startsWith("400 This model's maximum context length is 16385 tokens.")) {
 			message.replyWithMarkdown("Conversation character length exceeded maximum limit of 16385. "+
 				"Please refresh the conversation by typing `/chatr`."
 			);
-			return;
 		} else if (err.message.startsWith("429 Rate limit reached for gpt-3.5-turbo")) {
 			const TIMEOUTID = "Please try again in ";
 			const TIMEPERIOD = (err.message.includes("RPM"))?"minute":"day";
@@ -200,13 +198,13 @@ client.on("messageCreate", async (message: any) => {
 			let timeoutEnd = err.message.indexOf(".", timeoutStart);
 			const TIMEOUT = err.message.slice(timeoutStart, timeoutEnd);
 			message.reply(`Requests per ${TIMEPERIOD} limit reached - please wait for ${TIMEOUT}.`);
-			return;
 		} else if (err.message === "400 Sorry! We've encountered an issue with repetitive patterns in your prompt. Please try again with a different prompt.") {
 			message.reply("There is an issue with repetitive patterns in your prompt. Please try again with a different prompt.");
-			return;
+		}
+		else {
+			message.reply(`Unhandled error: ${err.message}`);
 		}
 		console.error(`Unhandled error: ${err.message}`);
-		message.reply(`Unhandled error: ${err.message}`);
 	}
 });
 client.login(DISCORD_TOKEN);

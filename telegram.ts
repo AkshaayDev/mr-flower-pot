@@ -175,19 +175,25 @@ bot.command(slashCommands, async (message: any) => {
 	} catch(err: any) {
 		if (err.message.startsWith("400 Your request was rejected")){
 			message.reply("Your request was rejected as it is not allowed by our safety system.");
-		} else if (err.message.startsWith("400 This model's maximum context length is 16385 tokens.")) {
+		}
+		else if (err.message.startsWith("400 This model's maximum context length is 16385 tokens.")) {
 			message.replyWithMarkdown("Conversation character length exceeded maximum limit of 16385. "+
 				"Please refresh the conversation by typing `/chatr`."
 			);
-		} else if (err.message.startsWith("429 Rate limit reached for gpt-3.5-turbo")) {
+		}
+		else if (err.message.startsWith("429 Rate limit reached for gpt-3.5-turbo")) {
 			const TIMEOUTID = "Please try again in ";
 			const TIMEPERIOD = (err.message.includes("RPM"))?"minute":"day";
 			let timeoutStart = err.message.indexOf(TIMEOUTID) + TIMEOUTID.length;
 			let timeoutEnd = err.message.indexOf(".", timeoutStart);
 			const TIMEOUT = err.message.slice(timeoutStart, timeoutEnd);
 			message.reply(`Requests per ${TIMEPERIOD} limit reached - please wait for ${TIMEOUT}.`);
-		} else if (err.message === "400 Sorry! We've encountered an issue with repetitive patterns in your prompt. Please try again with a different prompt.") {
-			message.reply("There is an issue with repetitive patterns in your prompt. Please try again with a different prompt.");
+		}
+		else if (err.message.startsWith("400 Sorry! We've encountered an issue with repetitive patterns")) {
+			message.reply("Repetitive patterns found in your prompt. Please try again with a different prompt.");
+		}
+		else if (err.message.startsWith("429 You exceeded your curret quota")) {
+			message.reply("AI quota exceeded.");
 		}
 		else {
 			message.reply(`Unhandled error: ${err.message}`);

@@ -192,13 +192,16 @@ bot.command(slashCommands, async (message: any) => {
 		else if (err.message.startsWith("400 Sorry! We've encountered an issue with repetitive patterns")) {
 			message.reply("Repetitive patterns found in your prompt. Please try again with a different prompt.");
 		}
-		else if (err.message.startsWith("429 You exceeded your curret quota")) {
+		else if (err.message.startsWith("429 You exceeded your current quota")) {
 			message.reply("AI quota exceeded.");
+		}
+		else if (err.message === "400 Billing hard limit has been reached") {
+			message.reply("AI billing hard limit has been reached.")
 		}
 		else {
 			message.reply(`Unhandled error: ${err.message}`);
 		}
-		console.error(`Unhandled error: ${err.message}`);
+		console.error(err);
 	}
 })
 bot.launch();

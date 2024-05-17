@@ -1,7 +1,9 @@
 import sqlite3 from "sqlite3";
 require("dotenv").config();
 
-const message = encodeURI("Hello, World!");
+let message = process.argv.slice(2).join(" ");
+message = (process.argv.length > 2)?message:"Hello World";
+message = encodeURI(message);
 console.log(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage?chat_id=${process.env.TELEGRAM_DEBUGCHAT}&text=${message}`);
 
 function read(path) {

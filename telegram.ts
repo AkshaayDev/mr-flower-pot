@@ -18,14 +18,6 @@ CREATE TABLE IF NOT EXISTS messages (
 const TELEGRAM_TOKEN: string = process.env.TELEGRAM_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;
 const OPENAI: any = new OpenAI({ apiKey: OPENAI_APIKEY });
-try {
-	await OPENAI.chat.completions.create({
-		model: "gpt-3.5-turbo",
-		messages: [{role: "user", content: "Hello, World!"}]
-	});
-} catch (err) {
-	console.error("Invalid token");
-}
 const bot: any = new Telegraf(TELEGRAM_TOKEN);
 const CMDLIST: { [name: string]: commandType } = {
 	"ChatGPT Conversation": {
@@ -205,6 +197,9 @@ bot.command(slashCommands, async (message: any) => {
 		}
 		else if (err.message === "400 Billing hard limit has been reached") {
 			message.reply("AI billing hard limit has been reached.")
+		}
+		else if (err.message.startsWith("401 Incorrect API key provided")) {
+			message.reply("Incorrect API key used.");
 		}
 		else {
 			message.reply(`Unhandled error: ${err.message}`);

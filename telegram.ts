@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS messages (
 const TELEGRAM_TOKEN: string = process.env.TELEGRAM_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;
 const OPENAI: any = new OpenAI({ apiKey: OPENAI_APIKEY });
+try {
+	await OPENAI.chat.completions.create({
+		model: "gpt-3.5-turbo",
+		messages: [{role: "user", content: "Hello, World!"}]
+	});
+} catch (err) {
+	console.error("Invalid token");
+}
 const bot: any = new Telegraf(TELEGRAM_TOKEN);
 const CMDLIST: { [name: string]: commandType } = {
 	"ChatGPT Conversation": {

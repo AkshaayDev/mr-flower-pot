@@ -210,6 +210,9 @@ client.on("messageCreate", async (message: any) => {
 		else if (err.message === "400 Billing hard limit has been reached") {
 			message.reply("AI billing hard limit has been reached.")
 		}
+		else if (err.message.startsWith("401 Incorrect API key provided")) {
+			message.reply("Incorrect API key used.");
+		}
 		else {
 			message.reply(`Unhandled error: ${err.message}`);
 		}

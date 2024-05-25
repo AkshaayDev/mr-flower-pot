@@ -1,6 +1,5 @@
 {
 	"name": "mr-flower-pot",
-	"version": "1.0.0",
 	"description": "A discord and telegram bot.",
 	"scripts": {
 		"install": "npm install tsx discord.js telegraf openai sqlite3 dotenv concurrently @types/node",

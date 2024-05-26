@@ -2,18 +2,18 @@ import sqlite3 from "sqlite3";
 require("dotenv").config();
 
 function URIEncode(text: string) {
-    let encoded = "";
-    for (let char of text) {
-        if (/^[a-zA-Z0-9]+$/i.test(char)) {
-            encoded += char
-            continue;
-        }
-        let code = char.charCodeAt(0).toString(16);
-        if (code.length === 1) { code = "%0" + code; }
-        else { code = "%" + code; }
-        encoded += code;
-    }
-    return encoded;
+	let encoded = "";
+	for (let char of text) {
+		if (/^[a-zA-Z0-9]+$/i.test(char)) {
+			encoded += char
+			continue;
+		}
+		let code = char.charCodeAt(0).toString(16);
+		if (code.length === 1) { code = "%0" + code; }
+		else { code = "%" + code; }
+		encoded += code;
+	}
+	return encoded;
 }
 
 let message: string = process.argv.slice(2).join(" ");
@@ -35,7 +35,7 @@ function read(path: string) {
 	new Promise((resolve: any, reject: any) => {
 		db.all("SELECT * FROM messages", (err: Error|null, rows: any[]) => {
 			if (err) { reject(err); } else { resolve(rows); }
-  		});
+		});
 	}).then(console.log);
 }
 read("./telegram.sqlite");

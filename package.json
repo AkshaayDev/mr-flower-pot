@@ -5,8 +5,7 @@
 		"install": "npm install tsx discord.js telegraf openai sqlite3 dotenv concurrently @types/node",
 		"start": "npx concurrently --kill-others \"npm run discord\" \"npm run telegram\"",
 		"discord": "npx tsx discord.ts",
-		"telegram": "npx tsx telegram.ts",
-		"restart": "rm ./telegram.sqlite ./discord.sqlite"
+		"telegram": "npx tsx telegram.ts"
 	},
 	"repository": {
 		"type": "git",

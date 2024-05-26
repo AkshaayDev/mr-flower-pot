@@ -6,6 +6,7 @@
 		"start": "npx concurrently --kill-others \"npm run discord\" \"npm run telegram\"",
 		"discord": "npx tsx discord.ts",
 		"telegram": "npx tsx telegram.ts",
+		"test": "bun run debug.ts",
 		"restart": "rm ./telegram.sqlite ./discord.sqlite"
 	},
 	"repository": {

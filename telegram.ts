@@ -50,7 +50,7 @@ const CONTEXT: string = "Your name is Mr. Flower Pot, a telegram chatbot. "+
 
 function getMessagesByChannelID(db: database, channelID: string): Promise<messageType[]> {
 	return new Promise<messageType[]>((resolve: any, reject: any) => {
-		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error|null, rows: any[]) => {
+		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error | null, rows: any[]) => {
 			if (err) { reject(err); } else { resolve(rows); }
 	  	});
 	});
@@ -58,12 +58,12 @@ function getMessagesByChannelID(db: database, channelID: string): Promise<messag
 function insertMessage(db: database, author: string, content: string, channelID: string): void {
 	db.serialize(() => {
 		db.run("INSERT INTO messages (Author, Content, ChannelID) VALUES (?, ?, ?)",
-		[author, content, channelID], (err: Error|null) => {if (err) { console.error(err.message); }});
+		[author, content, channelID], (err: Error | null) => {if (err) { console.error(err.message); }});
 	});
 }
 function clearChat(db: database, channelID: string): void {
 	db.serialize(() => {
-		db.run("DELETE FROM messages WHERE channelID = ?", [channelID], (err: Error|null) => {
+		db.run("DELETE FROM messages WHERE channelID = ?", [channelID], (err: Error | null) => {
 			if (err) { console.error(err.message); }
 		});
 	});
@@ -142,7 +142,7 @@ bot.command(slashCommands, async (message: any) => {
 				break;
 			case "say":
 			case "repeat":
-				if (ARGS.length === 0) message.reply("You did not send a message to repeat - cancelling command.");
+				if (ARGS.length === 0) { message.reply("You did not send a message to repeat - cancelling command."); }
 				else await message.reply(ARGS.join(" "));
 				break;
 			case "coin":

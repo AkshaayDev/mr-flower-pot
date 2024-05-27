@@ -54,7 +54,7 @@ const CONTEXT: string = "Your name is Mr. Flower Pot, a telegram chatbot. "+
 
 function getMessagesByChannelID(db: database, channelID: string): Promise<messageType[]> {
 	return new Promise<messageType[]>((resolve: any, reject: any) => {
-		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error|null, rows: any[]) => {
+		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error | null, rows: any[]) => {
 			if (err) { reject(err); } else { resolve(rows); }
 	  	});
 	});
@@ -62,12 +62,12 @@ function getMessagesByChannelID(db: database, channelID: string): Promise<messag
 function insertMessage(db: database, author: string, content: string, channelID: string): void {
 	db.serialize(() => {
 		db.run("INSERT INTO messages (Author, Content, ChannelID) VALUES (?, ?, ?)",
-		[author, content, channelID], (err: Error|null) => {if (err) { console.error(err.message); }});
+		[author, content, channelID], (err: Error | null) => {if (err) { console.error(err.message); }});
 	});
 }
 function clearChat(db: database, channelID: string): void {
 	db.serialize(() => {
-		db.run("DELETE FROM messages WHERE channelID = ?", [channelID], (err: Error|null) => {
+		db.run("DELETE FROM messages WHERE channelID = ?", [channelID], (err: Error | null) => {
 			if (err) { console.error(err.message); }
 		});
 	});
@@ -104,7 +104,7 @@ function randInt(min: number, max: number): number {
 
 client.on("ready", () => {
 	console.log("Logged in as: " + client.user.tag);
-	client.user.setActivity("help", {type: ActivityType.Listening});
+	client.user.setActivity("help", { type: ActivityType.Listening });
 });
 client.on("messageCreate", async (message: any) => {
 	const CALLCODE: string = "<@1205825009315086458>";
@@ -123,7 +123,7 @@ client.on("messageCreate", async (message: any) => {
 				insertMessage(db, message.author.tag, ARGS.join(" "), message.channelId);
 				const response: string = await chatgptConversation(message.channelId);
 				insertMessage(db, "assistant", response, message.channelId);
-				if(response === null || response === "") {
+				if (response === null || response === "") {
 					message.reply("⠀");
 				} else {
 					message.reply(response);
@@ -145,8 +145,8 @@ client.on("messageCreate", async (message: any) => {
 				break;
 			case "say":
 			case "repeat":
-				if (ARGS.length === 0) message.reply("You did not send a message to repeat - cancelling command.");
-				else message.channel.send(ARGS.join(" ")); 
+				if (ARGS.length === 0) { message.reply("You did not send a message to repeat - cancelling command."); }
+				else message.channel.send(ARGS.join(" "));
 				break;
 			case "coin":
 			case "flip":

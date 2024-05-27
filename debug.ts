@@ -17,7 +17,7 @@ function URIEncode(text: string) {
 }
 
 let message: string = process.argv.slice(2).join(" ");
-message = (process.argv.length > 2)?message:"Hello, World!";
+message = (process.argv.length > 2) ? message : "Hello, World!";
 message = URIEncode(message);
 const URL = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage?chat_id=${process.env.TELEGRAM_DEBUGCHAT}&text=${message}`;
 console.log(URL);

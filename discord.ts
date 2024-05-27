@@ -49,8 +49,10 @@ const CMDLIST: { [name: string]: commandType } = {
 		formats: ["dice","roll"]
 	},
 };
-const CONTEXT: string = "Your name is Mr. Flower Pot, a telegram chatbot. "+
-"You are not actually about flowers or gardening.";
+const CONTEXT: string = [
+	"Your name is Mr. Flower Pot, a telegram chatbot.",
+	"You are not actually about flowers or gardening.",
+].join(" ");
 
 function getMessagesByChannelID(db: database, channelID: string): Promise<messageType[]> {
 	return new Promise<messageType[]>((resolve: any, reject: any) => {
@@ -82,7 +84,10 @@ async function chatgptConversation(channelID: string): Promise<string> {
 	messages.unshift({ author: "system", content: CONTEXT, channelID: channelID });
 	const response: any = await OPENAI.chat.completions.create({
 		model: "gpt-3.5-turbo",
-		messages: messages.map((message: messageType) => ({ role: message.author, content: message.content })),
+		messages: messages.map((message: messageType) => ({
+			role: message.author,
+			content: message.content
+		})),
 	});
 	return response.choices[0].message.content;
 }
@@ -146,7 +151,7 @@ client.on("messageCreate", async (message: any) => {
 			case "say":
 			case "repeat":
 				if (ARGS.length === 0) { message.reply("You did not send a message to repeat - cancelling command."); }
-				else message.channel.send(ARGS.join(" "));
+				else { message.channel.send(ARGS.join(" ")) };
 				break;
 			case "coin":
 			case "flip":

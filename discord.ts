@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS messages (
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;
 const OPENAI: any = new OpenAI({ apiKey: OPENAI_APIKEY });
-const client: any = new Client({ intents : [
+const client: any = new Client({ intents: [
 	GatewayIntentBits.Guilds,
 	GatewayIntentBits.GuildMessages,
 	GatewayIntentBits.MessageContent,

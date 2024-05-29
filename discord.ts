@@ -63,7 +63,7 @@ function getMessagesByChannelID(db: database, channelID: string): Promise<messag
 }
 function insertMessage(db: database, author: string, content: string, channelID: string): void {
 	db.serialize(() => {
-		db.run(`INSERT INTO messages (Author, Content, ChannelID) VALUES (${author}, ${content}, ${channelID})`,
+		db.run(`INSERT INTO: messages (Author, Content, ChannelID) VALUES (${author}, ${content}, ${channelID})`,
 		(err: Error | null) => {if (err) { console.error(err.message); }});
 	});
 }

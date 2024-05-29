@@ -1,3 +1,4 @@
+import  fs from "node:fs";
 import sqlite3 from "sqlite3";
 require("dotenv").config();
 
@@ -24,6 +25,10 @@ console.log(URL);
 fetch(URL);
 
 function read(path: string) {
+	if (!fs.existsSync(path)) {
+		console.log(`File "${path}" does not exist.`);
+		return;
+	}
 	const db: sqlite3.Database = new sqlite3.Database(path);
 	db.serialize(() => { db.run(`
 	CREATE TABLE IF NOT EXISTS messages (

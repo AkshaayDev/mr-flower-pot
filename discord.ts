@@ -56,20 +56,20 @@ const CONTEXT: string = [
 
 function getMessagesByChannelID(db: database, channelID: string): Promise<messageType[]> {
 	return new Promise<messageType[]>((resolve: any, reject: any) => {
-		db.all("SELECT * FROM messages WHERE channelID = ?", [channelID], (err: Error | null, rows: any[]) => {
+		db.all(`SELECT * FROM messages WHERE channelID = ${channelID}`, (err: Error | null, rows: any[]) => {
 			if (err) { reject(err); } else { resolve(rows); }
 	  	});
 	});
 }
 function insertMessage(db: database, author: string, content: string, channelID: string): void {
 	db.serialize(() => {
-		db.run("INSERT INTO messages (Author, Content, ChannelID) VALUES (?, ?, ?)",
-		[author, content, channelID], (err: Error | null) => {if (err) { console.error(err.message); }});
+		db.run(`INSERT INTO messages (Author, Content, ChannelID) VALUES (${author}, ${content}, ${channelID})`,
+		(err: Error | null) => {if (err) { console.error(err.message); }});
 	});
 }
 function clearChat(db: database, channelID: string): void {
 	db.serialize(() => {
-		db.run("DELETE FROM messages WHERE channelID = ?", [channelID], (err: Error | null) => {
+		db.run(`DELETE FROM messages WHERE channelID = ${channelID}`, (err: Error | null) => {
 			if (err) { console.error(err.message); }
 		});
 	});

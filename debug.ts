@@ -1,4 +1,4 @@
-import  fs from "node:fs";
+import fs from "node:fs";
 import sqlite3 from "sqlite3";
 require("dotenv").config();
 

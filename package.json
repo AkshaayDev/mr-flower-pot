@@ -1,12 +1,14 @@
 {
 	"name": "mr-flower-pot",
 	"description": "A discord and telegram bot.",
+  "type": "module",
 	"scripts": {
-		"install": "npm install tsx discord.js telegraf openai sqlite3 dotenv concurrently @types/node",
-		"start": "npx concurrently --kill-others \"npm run discord\" \"npm run telegram\"",
-		"discord": "npx tsx discord.ts",
-		"telegram": "npx tsx telegram.ts"
-	},
+    "install": "bun add discord.js telegraf openai npm-run-all @types/bun --ignore-scripts",
+    "start": "bunx npm-run-all -p discord telegram",
+    "discord": "bun run discord.ts",
+    "telegram": "bun run telegram.ts",
+    "debug": "bun run debug.ts"
+  },
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/akshaaydev/mr-flower-pot"
@@ -14,13 +16,10 @@
 	"author": "Akshaay Kaldev",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@types/node": "^20.12.12",
-		"concurrently": "^8.2.2",
-		"discord.js": "^14.15.2",
-		"dotenv": "^16.4.5",
-		"openai": "^4.47.1",
-		"sqlite3": "^5.1.7",
-		"telegraf": "^4.16.3",
-		"tsx": "^4.11.0"
-	}
+    "@types/bun": "^1.1.3",
+    "discord.js": "^14.15.2",
+    "npm-run-all": "^4.1.5",
+    "openai": "^4.47.2",
+    "telegraf": "^4.16.3"
+  }
 }

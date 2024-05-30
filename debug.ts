@@ -1,8 +1,7 @@
-import fs from "node:fs";
 import { Database } from "bun:sqlite";
 
-function read(path: string) {
-	if (!fs.existsSync(path)) {
+async function read(path: string) {
+	if (!await Bun.file(path).exists()) {
 		console.log(`File "${path}" does not exist.`);
 		return;
 	}

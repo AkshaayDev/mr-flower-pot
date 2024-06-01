@@ -6,13 +6,7 @@ type commandType = { description: string, formats: string[] };
 type messageType = { author: string, content: string, channelID: string };
 
 const db: Database = new Database("./telegram.sqlite");
-db.query(`
-CREATE TABLE IF NOT EXISTS messages (
-	author TEXT,
-	content TEXT,
-	channelID TEXT
-)
-`).run();
+initialiseDatabase(db);
 const TELEGRAM_TOKEN: string = process.env.TELEGRAM_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;
 const OPENAI: any = new OpenAI({ apiKey: OPENAI_APIKEY });
@@ -48,6 +42,15 @@ const CONTEXT: string = [
 	"You are not actually about flowers or gardening.",
 ].join(" ");
 
+function initialiseDatabase(db: Database): void {
+	db.query(`
+	CREATE TABLE IF NOT EXISTS messages (
+		author TEXT,
+		content TEXT,
+		channelID TEXT
+	)
+	`).run();
+}
 function getMessagesByChannelID(db: Database, channelID: string): any[] {
 	return db.query("SELECT * FROM messages WHERE channelID = $channelID").all({
 		$channelID: channelID
@@ -90,12 +93,6 @@ async function dalle(prompt: string): Promise<string> {
 		size: "1024x1024",
 	});
 	return img.data[0].url;
-}
-function choice(array: any[]): any {
-	return array[Math.floor(Math.random() * array.length)];
-}
-function randInt(min: number, max: number): number {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 let slashCommands = ["start", "help", "debug"];
@@ -147,11 +144,11 @@ bot.command(slashCommands, async (message: any) => {
 				break;
 			case "coin":
 			case "flip":
-				message.replyWithMarkdown(`You landed *${choice(["heads", "tails"])}*!`);
+				message.reply(`You landed **${["heads", "tails"][Math.floor(Math.random() * 2)]}**!`);
 				break;
 			case "dice":
 			case "roll":
-				message.replyWithMarkdown(`You rolled a *${randInt(1, 6)}*!`);
+				message.reply(`You rolled a **${1 + Math.floor(Math.random() * 5)}**!`);
 				break;
 			case "debug":
 				message.reply(JSON.stringify(message.update, null, 4));

@@ -1,5 +1,5 @@
 run = "bun run start"
-entrypoint = "debug.ts"
+entrypoint = "telegram.ts"
 hidden = [".config", "bun.lockb"]
 modules = ["bun-1.1:v1-20240401-269b323"]
 

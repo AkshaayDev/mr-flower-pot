@@ -1,5 +1,5 @@
 {
-	"files": ["discord.ts", "telegram.ts", "debug.ts"],
+	"files": ["discord.ts", "telegram.ts"],
 	"compilerOptions": {
 		// Enable latest features
 		"lib": ["ESNext", "DOM"],

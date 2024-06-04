@@ -139,7 +139,7 @@ bot.command(slashCommands, async (message: any) => {
 				break;
 			case "say":
 			case "repeat":
-				if (ARGS.length === 0) { message.reply("You did not send a message to repeat - cancelling command."); }
+				if (ARGS.length === 0) { message.reply("⠀"); }
 				else { await message.reply(ARGS.join(" ")); }
 				break;
 			case "coin":

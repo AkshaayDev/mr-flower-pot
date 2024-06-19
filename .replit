@@ -7,6 +7,6 @@ modules = ["bun-1.1:v1-20240401-269b323"]
 channel = "stable-23_11"
 
 [deployment]
-build = ["sh", "-c", "bun build index.ts --target=bun --outfile=index.js"]
-run = ["bun", "run", "index.js"]
+build = ["bun build index.ts --target=bun --outfile=index.js"]
+run = ["bun run index.js"]
 deploymentTarget = "cloudrun"

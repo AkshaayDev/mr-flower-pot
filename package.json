@@ -11,7 +11,8 @@
     "install": "bun add discord.js openai @types/bun --ignore-scripts",
     "uninstall": "bun remove discord.js openai @types/bun --ignore-scripts",
     "start": "bun run index.ts",
-    "build": "bun build index.ts --target=bun --outfile=index.js"
+    "build": "bun build index.ts --target=bun --outfile=index.js",
+    "startbuild": "bun run index.js"
   },
   "type": "module",
   "dependencies": {

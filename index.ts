@@ -5,7 +5,7 @@ import { Database } from "bun:sqlite";
 type commandType = { description: string, formats: string[] };
 type messageType = { author: string, content: string, channelID: string };
 
-const db: Database = new Database("./discord.sqlite");
+const db: Database = new Database("./chats.sqlite");
 initialiseDatabase(db);
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;

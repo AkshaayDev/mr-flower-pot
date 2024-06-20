@@ -121,7 +121,7 @@ client.on("messageCreate", async (message: any) => {
 				const response: string = await chatgptConversation(message.channelId);
 				insertMessage(db, "assistant", response, message.channelId);
 				if (response === null || response === "") {
-					message.reply("⠀");
+					message.reply("\u2800");
 				} else {
 					message.reply(response);
 				}

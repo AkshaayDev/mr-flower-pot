@@ -42,7 +42,7 @@ const CMDLIST: { [name: string]: commandType } = {
 	},
 };
 const CONTEXT: string = [
-	"Your name is Mr. Flower Pot, a telegram chatbot.",
+	"Your name is Mr. Flower Pot, a discord chatbot.",
 	"You are not actually about flowers or gardening.",
 ].join(" ");
 

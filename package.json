@@ -15,8 +15,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@types/bun": "^1.1.4",
+    "@types/bun": "^1.1.6",
     "discord.js": "^14.15.3",
-    "openai": "^4.51.0"
+    "openai": "^4.52.5"
   }
 }

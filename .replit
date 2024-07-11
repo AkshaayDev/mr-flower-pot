@@ -1,12 +1,11 @@
 run = "bun run start"
-entrypoint = "index.ts"
 hidden = [".config", "bun.lockb"]
-modules = ["bun-1.1:v1-20240401-269b323"]
+entrypoint = "index.ts"
+modules = ["bun-1.0"]
 
 [nix]
-channel = "stable-23_11"
+channel = "stable-24_05"
 
 [deployment]
-build = ["bun build index.ts --target=bun --outfile=index.js"]
-run = ["bun run index.js"]
+run = ["sh", "-c", "bun run start"]
 deploymentTarget = "cloudrun"

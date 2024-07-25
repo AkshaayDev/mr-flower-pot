@@ -8,7 +8,7 @@
   "description": "A discord bot.",
   "license": "UNLICENSED",
   "scripts": {
-    "install": "bun add discord.js openai @types/bun --ignore-scripts",
+    "install": "bun add discord.js mathjs openai @types/bun --ignore-scripts",
     "start": "bun index.ts",
     "build": "bun build index.ts --target=bun --outfile=index.js",
     "startbuild": "bun index.js"
@@ -17,6 +17,7 @@
   "dependencies": {
     "@types/bun": "^1.1.6",
     "discord.js": "^14.15.3",
+    "mathjs": "^13.0.3",
     "openai": "^4.52.5"
   }
 }

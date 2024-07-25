@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, ActivityType, EmbedBuilder } from "discord.js";
+import { evaluate } from "mathjs";
 import { OpenAI } from "openai";
 import { Database } from "bun:sqlite";
 
@@ -27,6 +28,10 @@ const CMDLIST: { [name: string]: commandType } = {
 	"DALL-E": {
 		description: "Generate an image using DALL-E.",
 		formats: ["dalle <prompt>","imagine <prompt>"]
+	},
+	"Calculator": {
+		description: "Calculates the expression given. Docs: https://mathjs.org/",
+		formats: ["calculate <expression>","calc <expression>"]
 	},
 	"Say/Repeat": {
 		description: "Repeat the message given.",
@@ -108,16 +113,16 @@ client.on("messageCreate", async (message: any) => {
 	if (message.author.bot) return;
 	if (!message.content.startsWith(CALLCODE)) return;
 	try {
-		const ARGS: string[] = message.content.slice(CALLCODE.length).trim().split(" ");
-		const CMD: string = ARGS.shift()!.toLowerCase();
+		const args: string[] = message.content.slice(CALLCODE.length).trim().split(" ");
+		const cmd: string = args.shift()!.toLowerCase();
 		await message.channel.sendTyping();
-		switch (CMD) {
+		switch (cmd) {
 			case "chat":
-				if (ARGS.length === 0) {
+				if (args.length === 0) {
 					message.reply("You did not send a message - cancelling command.");
 					return;
 				}
-				insertMessage(db, message.author.tag, ARGS.join(" "), message.channelId);
+				insertMessage(db, message.author.tag, args.join(" "), message.channelId);
 				const response: string = await chatgptConversation(message.channelId);
 				insertMessage(db, "assistant", response, message.channelId);
 				if (response === null || response === "") {
@@ -133,17 +138,23 @@ client.on("messageCreate", async (message: any) => {
 				break;
 			case "dalle":
 			case "imagine":
-				if (ARGS.length === 0) {
+				if (args.length === 0) {
 					message.reply("You did not send a prompt - cancelling command.");
 					return;
 				}
-				const url: string = await dalle(ARGS.join(" "));
+				const url: string = await dalle(args.join(" "));
 				message.reply({files:[{ attachment: url, name: "image.jpg" }]});
+				break;
+			case "calculate":
+			case "calc":
+				let exp: string = args.join(" ");
+				try { message.reply(`${exp} = ${evaluate(exp).toString()}`); }
+				catch (err: any) { message.reply(err.message); }
 				break;
 			case "say":
 			case "repeat":
-				if (ARGS.length === 0) { message.reply("⠀"); }
-				else { message.channel.send(ARGS.join(" ")) };
+				if (args.length === 0) { message.reply("\u2800"); }
+				else { message.channel.send(args.join(" ")) };
 				break;
 			case "coin":
 			case "flip":

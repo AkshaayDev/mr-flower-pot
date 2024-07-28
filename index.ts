@@ -10,13 +10,14 @@ const db: Database = new Database("./chats.sqlite");
 initialiseDatabase(db);
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;
-const OPENAI: any = new OpenAI({ apiKey: OPENAI_APIKEY });
+const openai: any = new OpenAI({ apiKey: OPENAI_APIKEY });
 const client: any = new Client({ intents: [
 	GatewayIntentBits.Guilds,
 	GatewayIntentBits.GuildMessages,
 	GatewayIntentBits.MessageContent,
 ]});
-const CMDLIST: { [name: string]: commandType } = {
+const callcode: string = "<@1205825009315086458>";
+const cmdlist: { [name: string]: commandType } = {
 	"ChatGPT Conversation": {
 		description: "Have a conversation with ChatGPT.",
 		formats: ["chat <message>"]
@@ -46,7 +47,7 @@ const CMDLIST: { [name: string]: commandType } = {
 		formats: ["dice","roll"]
 	},
 };
-const CONTEXT: string = [
+const context: string = [
 	"Your name is Mr. Flower Pot, a discord chatbot.",
 	"You are not actually about flowers or gardening.",
 ].join(" ");
@@ -84,8 +85,8 @@ async function chatgptConversation(channelID: string): Promise<string> {
 			message.author = "user";
 		}
 	});
-	messages.unshift({ author: "system", content: CONTEXT, channelID: channelID });
-	const response: any = await OPENAI.chat.completions.create({
+	messages.unshift({ author: "system", content: context, channelID: channelID });
+	const response: any = await openai.chat.completions.create({
 		model: "gpt-3.5-turbo",
 		messages: messages.map((message: messageType) => ({
 			role: message.author,
@@ -95,7 +96,7 @@ async function chatgptConversation(channelID: string): Promise<string> {
 	return response.choices[0].message.content;
 }
 async function dalle(prompt: string): Promise<string> {
-	const img: any = await OPENAI.images.generate({
+	const img: any = await openai.images.generate({
 		model: "dall-e-2",
 		prompt: prompt,
 		n: 1,
@@ -109,11 +110,10 @@ client.on("ready", () => {
 	client.user.setActivity("help", { type: ActivityType.Listening });
 });
 client.on("messageCreate", async (message: any) => {
-	const CALLCODE: string = "<@1205825009315086458>";
 	if (message.author.bot) return;
-	if (!message.content.startsWith(CALLCODE)) return;
+	if (!message.content.startsWith(callcode)) return;
 	try {
-		const args: string[] = message.content.slice(CALLCODE.length).trim().split(" ");
+		const args: string[] = message.content.slice(callcode.length).trim().split(" ");
 		const cmd: string = args.shift()!.toLowerCase();
 		await message.channel.sendTyping();
 		switch (cmd) {
@@ -177,8 +177,8 @@ client.on("messageCreate", async (message: any) => {
 					.setThumbnail(client.user.displayAvatarURL())
 					.setFooter({ text: footerText, iconURL: footerIcon })
 					.setTimestamp();
-				for (const cmdname of Object.keys(CMDLIST)) {
-					const cmdobj: commandType = CMDLIST[cmdname];
+				for (const cmdname of Object.keys(cmdlist)) {
+					const cmdobj: commandType = cmdlist[cmdname];
 					let desc: string = cmdobj.description + "\n";
 					const formatlist: string[] = cmdobj.formats.slice();
 					for (let i = 0; i < formatlist.length; i++) {
@@ -202,12 +202,12 @@ client.on("messageCreate", async (message: any) => {
 			);
 		}
 		else if (err.message.startsWith("429 Rate limit reached for gpt-3.5-turbo")) {
-			const TIMEOUTID = "Please try again in ";
-			const TIMEPERIOD = (err.message.includes("RPM"))?"minute":"day";
-			let timeoutStart = err.message.indexOf(TIMEOUTID) + TIMEOUTID.length;
-			let timeoutEnd = err.message.indexOf(".", timeoutStart);
-			const TIMEOUT = err.message.slice(timeoutStart, timeoutEnd);
-			message.reply(`Requests per ${TIMEPERIOD} limit reached - please wait for ${TIMEOUT}.`);
+			let id = "Please try again in ";
+			let period = (err.message.includes("RPM"))?"minute":"day";
+			let start = err.message.indexOf(id) + id.length;
+			let end = err.message.indexOf(".", start);
+			let timeout = err.message.slice(start, end);
+			message.reply(`Requests per ${period} limit reached - please wait for ${timeout}.`);
 		}
 		else if (err.message.startsWith("400 Sorry! We've encountered an issue with repetitive patterns")) {
 			message.reply("Repetitive patterns found in your prompt. Please try again with a different prompt.");

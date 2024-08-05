@@ -147,6 +147,10 @@ client.on("messageCreate", async (message: any) => {
 				break;
 			case "calculate":
 			case "calc":
+				if (args.length === 0) {
+					message.reply("You did not send an expression - cancelling command.");
+					return;
+				}
 				let exp: string = args.join(" ");
 				try { message.reply(`${exp} = ${evaluate(exp).toString()}`); }
 				catch (err: any) { message.reply(err.message); }

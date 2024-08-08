@@ -157,8 +157,10 @@ client.on("messageCreate", async (message: any) => {
 				break;
 			case "say":
 			case "repeat":
-				if (args.length === 0) { message.reply("\u2800"); }
-				else { message.channel.send(args.join(" ")) };
+				if (args.length === 0) {
+					message.reply("You did not send a message - cancelling command.");
+					return;
+				} else { message.channel.send(args.join(" ")) };
 				break;
 			case "coin":
 			case "flip":

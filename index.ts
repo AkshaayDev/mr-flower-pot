@@ -3,7 +3,6 @@ import { evaluate } from "mathjs";
 import { OpenAI } from "openai";
 import { Database } from "bun:sqlite";
 
-type commandType = { description: string, formats: string[] };
 type messageType = { author: string, content: string, channelID: string };
 
 const db: Database = new Database("./chats.sqlite");
@@ -17,36 +16,43 @@ const client: any = new Client({ intents: [
 	GatewayIntentBits.MessageContent,
 ]});
 const callcode: string = "<@1205825009315086458>";
-const cmdlist: { [name: string]: commandType } = {
-	"ChatGPT Conversation": {
+const cmdlist: { name: string, description: string, formats: string[] }[] = [
+	{
+		name: "ChatGPT Conversation",
 		description: "Have a conversation with ChatGPT.",
 		formats: ["chat <message>"]
 	},
-	"Conversation Refresh": {
+	{
+		name: "Conversation Refresh",
 		description: "Refresh the ChatGPT conversation.",
 		formats: ["chatrefresh","chatr"]
 	},
-	"DALL-E": {
+	{
+		name: "DALL-E",
 		description: "Generate an image using DALL-E.",
 		formats: ["dalle <prompt>","imagine <prompt>"]
 	},
-	"Calculator": {
-		description: "Calculates the expression given. Docs: https://mathjs.org/",
+	{
+		name: "Calculator",
+		description: "Calculates the expression given.\nDocs: https://mathjs.org/",
 		formats: ["calculate <expression>","calc <expression>"]
 	},
-	"Say/Repeat": {
+	{
+		name: "Say/Repeat",
 		description: "Repeat the message given.",
 		formats: ["say <message>","repeat <message>"]
 	},
-	"Coin Flip": {
+	{
+		name: "Coin Flip",
 		description: "Randomly returns heads or tails.",
 		formats: ["coin","flip"]
 	},
-	"Dice Roll": {
+	{
+		name: "Dice Roll",
 		description: "Returns a random number from 1 to 6.",
 		formats: ["dice","roll"]
 	},
-};
+];
 const context: string = [
 	"Your name is Mr. Flower Pot, a discord chatbot.",
 	"You are not actually about flowers or gardening.",
@@ -183,15 +189,12 @@ client.on("messageCreate", async (message: any) => {
 					.setThumbnail(client.user.displayAvatarURL())
 					.setFooter({ text: footerText, iconURL: footerIcon })
 					.setTimestamp();
-				for (const cmdname of Object.keys(cmdlist)) {
-					const cmdobj: commandType = cmdlist[cmdname];
-					let desc: string = cmdobj.description + "\n";
-					const formatlist: string[] = cmdobj.formats.slice();
-					for (let i = 0; i < formatlist.length; i++) {
-						formatlist[i] = `@Mr. Flower Pot ${formatlist[i]}`;
-					}
-					desc += "```" + formatlist.join("\n") + "```";
-					embed.addFields({ name: `__**${cmdname}**__`, value: desc });
+				for (const cmd of cmdlist) {
+					let name: string = `__**${cmd.name}**__`
+					let desc: string = cmd.description + "\n";
+					let formats: string[] = cmd.formats.map(format => `@Mr. Flower Pot ${format}`);
+					let value: string = desc + "```" + formats.join("\n") + "```";
+					embed.addFields({ name: name, value: value });
 				}
 				message.channel.send({ embeds: [embed] });
 				break;

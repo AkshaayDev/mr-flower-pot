@@ -1,5 +1,4 @@
 run = "bun run start"
-entrypoint = "index.ts"
 hidden = [".config", "bun.lockb"]
 modules = ["bun-1.0"]
 

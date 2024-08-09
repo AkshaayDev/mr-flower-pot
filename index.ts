@@ -7,10 +7,10 @@ type messageType = { author: string, content: string, channelID: string };
 
 const db: Database = new Database("./chats.sqlite");
 initialiseDatabase(db);
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN!;
+const DISCORD_TOKEN: string = process.env.DISCORD_TOKEN!;
 const OPENAI_APIKEY: string = process.env.OPENAI_APIKEY!;
-const openai: any = new OpenAI({ apiKey: OPENAI_APIKEY });
-const client: any = new Client({ intents: [
+const openai: OpenAI = new OpenAI({ apiKey: OPENAI_APIKEY });
+const client: Client = new Client({ intents: [
 	GatewayIntentBits.Guilds,
 	GatewayIntentBits.GuildMessages,
 	GatewayIntentBits.MessageContent,
@@ -72,11 +72,11 @@ function getMessagesByChannelID(db: Database, channelID: string): any[] {
 		$channelID: channelID
 	});
 }
-function insertMessage(db: Database, author: string, content: string, channelID: string): void {
+function insertMessage(db: Database, message: messageType): void {
 	db.query("INSERT INTO messages (author, content, channelID) VALUES ($author, $content, $channelID)").run({
-		$author: author,
-		$content: content,
-		$channelID: channelID
+		$author: message.author,
+		$content: message.content,
+		$channelID: message.channelID
 	});
 }
 function clearChat(db: Database, channelID: string): void {
@@ -92,28 +92,28 @@ async function chatgptConversation(channelID: string): Promise<string> {
 		}
 	});
 	messages.unshift({ author: "system", content: context, channelID: channelID });
-	const response: any = await openai.chat.completions.create({
+	const response = await openai.chat.completions.create({
 		model: "gpt-3.5-turbo",
 		messages: messages.map((message: messageType) => ({
 			role: message.author,
 			content: message.content
 		})),
 	});
-	return response.choices[0].message.content;
+	return response.choices[0].message.content!;
 }
 async function dalle(prompt: string): Promise<string> {
-	const img: any = await openai.images.generate({
+	const img = await openai.images.generate({
 		model: "dall-e-2",
 		prompt: prompt,
 		n: 1,
 		size: "1024x1024",
 	});
-	return img.data[0].url;
+	return img.data[0].url!;
 }
 
 client.on("ready", () => {
-	console.log("Logged in as: " + client.user.tag);
-	client.user.setActivity("help", { type: ActivityType.Listening });
+	console.log("Logged in as: " + client.user!.tag);
+	client.user!.setActivity("help", { type: ActivityType.Listening });
 });
 client.on("messageCreate", async (message: any) => {
 	if (message.author.bot) return;
@@ -128,9 +128,17 @@ client.on("messageCreate", async (message: any) => {
 					message.reply("You did not send a message - cancelling command.");
 					return;
 				}
-				insertMessage(db, message.author.tag, args.join(" "), message.channelId);
+				insertMessage(db, {
+					author: message.author.tag,
+					content: args.join(" "),
+					channelID: message.channelId
+				});
 				const response: string = await chatgptConversation(message.channelId);
-				insertMessage(db, "assistant", response, message.channelId);
+				insertMessage(db, {
+					author: "assistant",
+					content: response,
+					channelID: message.channelId
+				});
 				if (response === null || response === "") {
 					message.reply("\u2800");
 				} else {
@@ -178,6 +186,7 @@ client.on("messageCreate", async (message: any) => {
 				break;
 			case "debug":
 				message.reply(JSON.stringify(message, null, 4));
+				console.log(db.query("SELECT * FROM messages").all());
 				break;
 			case "help":
 			case "":
@@ -186,7 +195,7 @@ client.on("messageCreate", async (message: any) => {
 				const embed = new EmbedBuilder()
 					.setTitle("HELP MENU")
 					.setColor(0xa56244)
-					.setThumbnail(client.user.displayAvatarURL())
+					.setThumbnail(client.user!.displayAvatarURL())
 					.setFooter({ text: footerText, iconURL: footerIcon })
 					.setTimestamp();
 				for (const cmd of cmdlist) {

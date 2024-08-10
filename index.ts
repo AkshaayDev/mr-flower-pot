@@ -15,7 +15,6 @@ const client: Client = new Client({ intents: [
 	GatewayIntentBits.GuildMessages,
 	GatewayIntentBits.MessageContent,
 ]});
-const callcode: string = "<@1205825009315086458>";
 const cmdlist: { name: string, description: string, formats: string[] }[] = [
 	{
 		name: "ChatGPT Conversation",
@@ -116,7 +115,8 @@ client.on(Events.ClientReady, () => {
 	client.user!.setActivity("help", { type: ActivityType.Listening });
 });
 client.on(Events.MessageCreate, async (message: any) => {
-	if (message.author.bot) return;
+	if (message.author.bot) { return; }
+const callcode: string = "<@${client.user!.id}>";
 	if (!message.content.startsWith(callcode)) return;
 	try {
 		const args: string[] = message.content.slice(callcode.length).trim().split(" ");

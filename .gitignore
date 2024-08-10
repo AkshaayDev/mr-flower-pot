@@ -1,4 +1,6 @@
+# ChatGPT conversation database
 chats.sqlite
+# JS build file
 index.js
 
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore

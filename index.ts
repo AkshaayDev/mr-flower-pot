@@ -116,7 +116,7 @@ client.on(Events.ClientReady, () => {
 });
 client.on(Events.MessageCreate, async (message: any) => {
 	if (message.author.bot) { return; }
-const callcode: string = "<@${client.user!.id}>";
+	const callcode: string = "<@${client.user!.id}>";
 	if (!message.content.startsWith(callcode)) return;
 	try {
 		const args: string[] = message.content.slice(callcode.length).trim().split(" ");

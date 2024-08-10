@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, ActivityType, EmbedBuilder } from "discord.js";
+import { Client, GatewayIntentBits, Events, ActivityType, EmbedBuilder } from "discord.js";
 import { evaluate } from "mathjs";
 import { OpenAI } from "openai";
 import { Database } from "bun:sqlite";
@@ -19,37 +19,37 @@ const callcode: string = "<@1205825009315086458>";
 const cmdlist: { name: string, description: string, formats: string[] }[] = [
 	{
 		name: "ChatGPT Conversation",
-		description: "Have a conversation with ChatGPT.",
+		description: "Have a conversation with ChatGPT",
 		formats: ["chat <message>"]
 	},
 	{
 		name: "Conversation Refresh",
-		description: "Refresh the ChatGPT conversation.",
+		description: "Refresh the ChatGPT conversation",
 		formats: ["chatrefresh","chatr"]
 	},
 	{
 		name: "DALL-E",
-		description: "Generate an image using DALL-E.",
+		description: "Generate an image using DALL-E",
 		formats: ["dalle <prompt>","imagine <prompt>"]
 	},
 	{
 		name: "Calculator",
-		description: "Calculates the expression given.\nDocs: https://mathjs.org/",
+		description: "Calculates the expression given\nDocs: https://mathjs.org/",
 		formats: ["calculate <expression>","calc <expression>"]
 	},
 	{
 		name: "Say/Repeat",
-		description: "Repeat the message given.",
+		description: "Repeat the message given",
 		formats: ["say <message>","repeat <message>"]
 	},
 	{
 		name: "Coin Flip",
-		description: "Randomly returns heads or tails.",
+		description: "Randomly returns heads or tails",
 		formats: ["coin","flip"]
 	},
 	{
 		name: "Dice Roll",
-		description: "Returns a random number from 1 to 6.",
+		description: "Returns a random number from 1 to 6",
 		formats: ["dice","roll"]
 	},
 ];
@@ -111,11 +111,11 @@ async function dalle(prompt: string): Promise<string> {
 	return img.data[0].url!;
 }
 
-client.on("ready", () => {
+client.on(Events.ClientReady, () => {
 	console.log("Logged in as: " + client.user!.tag);
 	client.user!.setActivity("help", { type: ActivityType.Listening });
 });
-client.on("messageCreate", async (message: any) => {
+client.on(Events.MessageCreate, async (message: any) => {
 	if (message.author.bot) return;
 	if (!message.content.startsWith(callcode)) return;
 	try {

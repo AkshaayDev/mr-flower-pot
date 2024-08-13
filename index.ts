@@ -1,5 +1,4 @@
-import { Client, GatewayIntentBits, Events, ActivityType, Guild, REST, Routes, ChatInputCommandInteraction } from "discord.js";
-import type { Interaction } from "discord.js";
+import { Client, GatewayIntentBits, Events, ActivityType, Guild, REST, Routes, type Interaction, ChatInputCommandInteraction } from "discord.js"
 
 type Command = {
 	name: string,

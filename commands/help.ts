@@ -1,5 +1,4 @@
-import type { Command } from "../index.ts";
-import { cmdlist } from "../index.ts"
+import { type Command, cmdlist } from "../index.ts"
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 
 let help: Command = {

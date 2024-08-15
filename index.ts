@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Events, ActivityType, Guild, REST, Routes, type Interaction, ChatInputCommandInteraction } from "discord.js"
+import { Client, GatewayIntentBits, Events, ActivityType, Guild, REST, Routes, type Interaction, ChatInputCommandInteraction } from "discord.js";
 
 type Command = {
 	name: string,
@@ -59,5 +59,4 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
 });
 
 client.login(DISCORD_TOKEN);
-export type { Command };
-export { cmdlist };
+export { type Command, cmdlist };

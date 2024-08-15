@@ -1,4 +1,4 @@
-import type { Command } from "../index.ts";
+import { type Command } from "../index.ts";
 import { ChatInputCommandInteraction } from "discord.js";
 
 let dice: Command = {

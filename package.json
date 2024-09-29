@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/akshaaydev/mr-flower-pot"
   },
-  "description": "A discord bot.",
+  "description": "A discord bot built with TypeScript and Bun.",
   "license": "UNLICENSED",
   "scripts": {
     "install": "bun add discord.js mathjs @types/bun --ignore-scripts",

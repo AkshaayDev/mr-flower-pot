@@ -1,7 +1,7 @@
 # Mr. Flower Pot🌸
 
 ## Overview
-Mr. Flower Pot is a **discord bot** made using [TypeScript](https://www.typescriptlang.org) and [Bun](https://bun.sh). It was originally created as a fun experimental bot for small servers, but can also be helpful to your servers.
+Mr. Flower Pot is a **discord bot** made using [TypeScript](https://www.typescriptlang.org) and [Bun](https://bun.sh). It was originally created as a fun experimental bot, but can also be helpful to your servers.
 
 ## Features
 Mr. Flower Pot works with discord slash commands. The commands are as followed:

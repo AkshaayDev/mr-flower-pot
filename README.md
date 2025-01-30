@@ -23,7 +23,7 @@ Mr. Flower Pot works with discord slash commands. The commands are as followed:
 4. **Run the bot**: `bun run start`
 5. With the bot online, add it to your server and use the commands.
 
-## Configuration
+## ⚙️Configuration
 To add, remove or change features, just **make a new command file** in the `/commands/` folder following the same format as the other commands to create a command object and export it to index.ts
 
 Example:
@@ -44,11 +44,11 @@ export default cmd;
 
 ```
 
-## License
+## 🪪License
 This project is unlicensed. You are free to use, modify, distribute or do anything else **without any restrictions**.
 
 ## ❌No Contributions
 This is a personal project and I do not accept contributions. Please do not submit pull requests or open issues.
 
-## Development Status
+## 🛠️Development Status
 This project is **mostly inactive**. I may update or add new features **occasionally**, but I likely won't. There is no guarantee of future updates or maintenance.

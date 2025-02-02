@@ -44,7 +44,9 @@ export default cmd;
 
 ```
 
-## 🪪License
+This makes `index.ts` register a command `/cmd` that replies with `"Hello, World!"`.
+
+## License
 This project is unlicensed. You are free to use, modify, distribute or do anything else **without any restrictions**.
 
 ## ❌No Contributions

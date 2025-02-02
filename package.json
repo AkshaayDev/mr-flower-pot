@@ -1,17 +1,17 @@
 {
   "name": "mr-flower-pot",
+  "description": "A discord bot built with TypeScript and Bun.",
   "author": "Akshaay Kaldev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/akshaaydev/mr-flower-pot"
+    "url": "git+https://github.com/akshaaydev/mr-flower-pot.git"
   },
-  "description": "A discord bot built with TypeScript and Bun.",
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "install": "bun add discord.js mathjs @types/bun --ignore-scripts",
     "start": "bun index.ts"
   },
-  "type": "module",
   "dependencies": {
     "@types/bun": "^1.1.6",
     "discord.js": "^14.15.3",

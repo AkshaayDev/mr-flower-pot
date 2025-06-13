@@ -1,10 +1,12 @@
 # Mr. Flower Pot🌸
 
 ## Overview
-Mr. Flower Pot is a **discord bot** made using [TypeScript](https://www.typescriptlang.org) and [Bun](https://bun.sh). It was originally created as a fun experimental bot, but can also be helpful to your servers.
+Mr. Flower Pot is a **discord bot** made using [TypeScript](https://www.typescriptlang.org) and [Bun](https://bun.sh).
+It was originally created as a fun experimental bot, but can also be helpful to your servers.
 
 ## Features
-Mr. Flower Pot works with discord slash commands. The commands are as followed:
+Mr. Flower Pot works with discord slash commands.
+The commands are as followed:
 - `/help` - Mr. Flower Pot Help Menu
 - `/calc` - Calculates the expression given using [Math.js](https://mathjs.org)
 - `/say` - Say the message given
@@ -21,10 +23,10 @@ Mr. Flower Pot works with discord slash commands. The commands are as followed:
 2. **Install dependencies**: `bun run install`
 3. **Set up the environment variables**: Create a `.env` file in the directory and add the discord bot token: `DISCORD_TOKEN={your-token-here}`
 4. **Run the bot**: `bun run start`
-5. With the bot online, add it to your server and use the commands.
+5. With the bot online, **add it to your server and use the commands**.
 
 ## ⚙️Configuration
-To add, remove or change features, just **make a new command file** in the `/commands/` folder following the same format as the other commands to create a command object and export it to index.ts
+To add, remove or change features, just **make a new command file** in the `/commands/` folder following the same format as the other commands to create a command object and export it to `index.ts`.
 
 Example:
 
@@ -50,7 +52,10 @@ This makes `index.ts` register a command `/cmd` that replies with `"Hello, World
 This project is **unlicensed**.
 
 ## ❌No Contributions
-This is a personal project and I do not accept contributions. Please do not submit pull requests or open issues.
+This is a personal project and I do not accept contributions.
+Please do not submit pull requests or open issues.
 
 ## 🛠️Development Status
-This project is **mostly inactive**. I may update or add new features **occasionally**, but I likely won't. There is no guarantee of future updates or maintenance.
+This project is **mostly inactive**.
+I may update or add new features **occasionally**, but I likely won't.
+There is no guarantee of future updates or maintenance.

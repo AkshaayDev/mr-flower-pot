@@ -22,10 +22,12 @@ The commands are as followed:
 1. **Clone and go to the repository**: `git clone https://github.com/akshaaydev/mr-flower-pot.git`, `cd mr-flower-pot`
 2. **Install dependencies**: `bun run install`
 3. **Set up the environment variables**: Create a `.env` file in the directory and add the discord bot token: `DISCORD_TOKEN={your-token-here}`
-4. **Run the bot**: `bun run start`
-5. With the bot online, **add it to your server and use the commands**.
+4. **Configure** the bot accordingly
+5. **Run the bot**: `bun run start`
+6. With the bot online, **add it to your server and use the commands**
 
 ## ⚙️Configuration
+Customise the bot by changing the script or commands.
 To add, remove or change features, just **make a new command file** in the `/commands/` folder following the same format as the other commands to create a command object and export it to `index.ts`.
 
 Example:
@@ -47,6 +49,7 @@ export default cmd;
 ```
 
 This makes `index.ts` register a command `/cmd` that replies with `"Hello, World!"`.
+Alternatively, you can completely restructure the script to fit your use case.
 
 ## License
 This project is **unlicensed**.

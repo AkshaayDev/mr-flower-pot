@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Events, ActivityType, Guild, REST, Routes, type Interaction, ChatInputCommandInteraction } from "discord.js";
 
+// Type definition for a command object for loading and handling
 type Command = {
 	name: string,
 	description: string,
@@ -13,6 +14,7 @@ type Command = {
 	execute: (interaction: ChatInputCommandInteraction) => Promise<void>
 };
 
+// Load commands from each file in ./commands/ folder
 const cmdlist: Command[] = [];
 const files: string[] = ["help","calc","say","coin","dice"];
 for (const file of files) {
@@ -27,6 +29,7 @@ const client: Client = new Client({ intents: [
 	GatewayIntentBits.MessageContent,
 ]});
 
+// Load and register commands with discord via REST API
 const rest = new REST({ version: "10" }).setToken(DISCORD_TOKEN);
 async function loadCommands(guild: Guild) {
 	try {
@@ -44,14 +47,18 @@ async function loadCommands(guild: Guild) {
 
 client.on(Events.ClientReady, () => {
 	console.log("Logged in as: " + client.user!.tag);
+	// Listening to /help
 	client.user!.setActivity("/help", { type: ActivityType.Listening });
+	// Load commands for every guild the bot is in
 	client.guilds.cache.each((guild: Guild) => { loadCommands(guild); });
 });
 
+// Load commands when added to a new guild
 client.on(Events.GuildCreate, (guild: Guild) => {
 	loadCommands(guild);
 });
 
+// Handle each command
 client.on(Events.InteractionCreate, async (interaction: Interaction) => {
 	if (!interaction.isChatInputCommand()) { return; }
 	const cmd: Command = cmdlist.find(cmd => cmd.name === interaction.commandName)!;

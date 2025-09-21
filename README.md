@@ -50,15 +50,3 @@ export default cmd;
 
 This makes `index.ts` register a command `/cmd` that replies with `"Hello, World!"`.
 Alternatively, you can completely restructure the script to fit your use case.
-
-## License
-This project is **unlicensed**.
-
-## ❌No Contributions
-This is a personal project and I do not accept contributions.
-Please do not submit pull requests or open issues.
-
-## 🛠️Development Status
-This project is **mostly inactive**.
-I may update or add new features **occasionally**, but I likely won't.
-There is no guarantee of future updates or maintenance.
